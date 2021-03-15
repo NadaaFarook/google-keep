@@ -1,7 +1,11 @@
 import { useState } from "react";
-
+import './App.css'
+import EditToast from "./components/EditToast";
+import TodoDisplay from "./components/TodoDisplay";
 
 const App = () => {
+  const [search , setSearch]=useState('')
+  const [tags , setTags] = useState(['No Tags' , 'Important' , 'General'])
   const [todo, setTodo] = useState([
     {
       id: 1,
@@ -9,18 +13,35 @@ const App = () => {
       description: "This is a test todo. You can delete it later.",
       color: "white",
       colorArray: ["green", "blue", "yellow", "white"],
-      isCompleted: false
+      isPinned: true ,
+      tags : tags ,
+      currentTag : 'Important'
     }
   ]);
+  {console.log('first' , todo)}
   const [addTodo, setAddTodo] = useState({
     id: Date.now(),
     title: "",
     description: "",
-    color: "green",
+    color: "",
     colorArray: ["green", "blue", "yellow", "white"],
-    isCompleted: false
+    isPinned: false,
+    tags : tags ,
+    currentTag : ''
   });
-  //const [editTodo, setEditTodo] = useState({});
+
+  const [editTodo, setEditTodo] = useState({
+      id: "",
+      title: "",
+      description: "",
+      color: "",
+      colorArray: [],
+      isPinned: "" ,
+      tags : tags ,
+      currentTag : ""
+  });
+
+
   // const completeTodo = (id) => {
   //   return setTodo(
   //     todo.map((a) =>
@@ -29,12 +50,39 @@ const App = () => {
   //   );
   // };
   const addTodoo = (e) => {
-    const { name, value } = e.target;
+    const { id, value } = e.target;
     setAddTodo({
       ...addTodo,
+      [id]: value
+    });
+  };
+  const editTodoo = (e) => {
+    const { name, value } = e.target;
+    setEditTodo({
+      ...editTodo,
       [name]: value
     });
   };
+
+
+  const submitEditTodo = (id) =>{
+        setTodo(todo.map(a => a.id === id  ? {...editTodo} : {...a}));
+        setEditTodo({
+          id: "",
+          title: "",
+          description: "",
+          color: "",
+          colorArray: [],
+          isPinned: "",
+          tags : tags ,
+          currentTag : ''
+        })
+      
+      }
+
+
+
+
   const submitTodo = (e) => {
     e.preventDefault();
     setTodo([...todo, addTodo]);
@@ -44,7 +92,9 @@ const App = () => {
       description: "",
       color: "white",
       colorArray: ["green", "blue", "yellow", "white"],
-      isCompleted: false
+      isPinned: false,
+      tags : tags ,
+      currentTag : ''
     });
   };
   const setColor = (col , id) =>{
@@ -56,89 +106,81 @@ const App = () => {
   }
   const deleteTodo =(id) =>setTodo(todo.filter(t=> t.id !== id))
    
-  // const editTodoFunction = (id) => {
-  //   return todo.map((i) => (i.id === id ? setEditTodo(i) : ""));
-  // };
-
+  const editTodoFunction = (id) => {
+    return todo.map((i) => (i.id === id ? setEditTodo(i) : ""));
+  };
+  const editPinned = (id)=> {
+    return(
+      setTodo(todo.map((e) => 
+      e.id === id ? {...e , isPinned : !e.isPinned} : {...e}))
+    )
+  }
+  const setTagsFunctions = (e ,id)=>{
+    setTodo(todo.map((a) => 
+      a.id === id ? {...a , currentTag : e.target.value} : {...a}))
+  }
   return (
     <div className="App">
       <h1>My Todo</h1>
+      
+      <div className="search">
+        <input placeholder='Search something' value={search} onChange={(e)=> setSearch(e.target.value)} />
+      </div>
+      
       {/* new inputs */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}
-        className="inputs-section"
-      >
+      <div className="inputs-section">
         <input
-          name="title"
+        className="input"
+          id="title"
           placeholder="Add todo"
           onChange={addTodoo}
           value={addTodo.title}
         />{" "}
         <textarea
-          name="description"
+         className="input"
+          id="description"
           placeholder="Add description"
           value={addTodo.description}
           onChange={addTodoo}
         ></textarea>
-        <input
-          placeholder="Add color"
-          name="color"
-          onChange={addTodoo}
-          value={addTodo.color}
-        />
+        {
+          addTodo.colorArray.map(col =>{
+            return(
+              <div
+              id="color"
+              value={col}
+              style={{
+                backgroundColor: col,
+                width: "10px",
+                height: "10px",
+                borderRadius: "100%",
+                boxShadow: "0 0 2px 1px #8080805c"
+              }}
+              onClick={()=>setAddTodo({...addTodo , color : col})}
+            ></div>
+            )
+          })
+        }
+<select id="currentTag" value={addTodo.currentTag} onChange={addTodoo}>
+  
+  {tags.map((a)  =>  {
+    return(<option value={a}>{a}</option>)
+    } 
+    )}
+</select>  
+
         
       </div>
       {/* new inputs */}
       <button onClick={(e) => submitTodo(e)}>Submit Todo</button>
-      {/* <div>{<input value={editTodo.title} />}</div> */}
-      {todo.map((todo) => {
-        return (
-          <div
-            style={{ width: "250px", margin: "auto", border: "1px solid grey" , backgroundColor : todo.color}}
-            className="todo-component"
-          >
-            <h5>{todo.title}</h5>
-            <p>{todo.description}</p>
-            <div className="allColors" style={{display: 'flex'}}>
-              {
-                todo.colorArray.map(col =>{
-                  return(
-                    <div
-                    style={{
-                      backgroundColor: col,
-                      width: "10px",
-                      height: "10px",
-                      borderRadius: "100%",
-                      boxShadow: "0 0 2px 1px #8080805c"
-                    }}
-                    onClick={()=>setColor(col , todo.id)}
-                  ></div>
-                  )
-                })
-              }
-            </div>
-            <div className="Buttons">
-              <button>Edit</button>
-              <button onClick={
-                ()=>deleteTodo(todo.id)
-              }>Delete</button>
-            </div>
-            
-            {/* <button
-              onClick={(e) => {
-                editTodoFunction(todo.id);
-              }}
-            >
-              Edit
-            </button> */}
-          </div>
-        );
-      })}
-      {console.log(todo)}
+
+{editTodo.title !== "" && 
+        <EditToast tags={tags} editTodo={editTodo} editTodoo={editTodoo} submitEditTodo={submitEditTodo} />
+
+      }
+
+      <TodoDisplay todo={todo} search={search} editPinned={editPinned} editTodoFunction={editTodoFunction}  setColor={setColor} setTagsFunctions={setTagsFunctions} deleteTodo={deleteTodo} />
+      
     </div>
   );
 };

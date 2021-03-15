@@ -1,38 +1,82 @@
+*{
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.flex{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.EditToast{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  align-content: space-evenly;
+  position: absolute;
+  background-color: blanchedalmond;
+  top: 0px;
+  align-items: center;
+  justify-content: center;
+  bottom:0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.tagsAndColors select{
+  width: 100px;
+  font-size: 12px;
+}
+.inputs-section{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.search input{
+  width: 80vw;
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid #e8e8e8;
+    margin: 10px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input {
+  border: 1px solid #e8e8e8;
+  padding: 5px;
+  width: 250px;
+  margin:3px;
+  border-radius: 5px;
+}
+select{
+  border: 1px solid #e8e8e8;
+    padding: 3px;
+    margin: 2px;
+    width: 200px;
+}
+.todo-component p{
+  padding: 5px;
+    margin: 0;
+    font-size: 12.7px;
+}
+button {
+  background-color: white;
+  border: 1px solid #dadada;
+  padding: 3px 15px;
+  margin: 3px;
+}
+.pinDiv button{
+  border: 1px solid #00000000;
+}
+.pinDiv button:focus{
+  outline: 1px solid #00000000;
+}
+.pinDiv button {
+  border: 1px solid #00000000;
+  padding: 0;
+  margin: 0;
+  color: #ffa3a3;
+  background-color: #a52a2a00;
 }
