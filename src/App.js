@@ -18,7 +18,7 @@ const App = () => {
       currentTag : 'Important'
     }
   ]);
-  {console.log('first' , todo)}
+  
   const [addTodo, setAddTodo] = useState({
     id: Date.now(),
     title: "",
