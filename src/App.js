@@ -5,7 +5,7 @@ import TodoDisplay from "./components/TodoDisplay";
 
 const App = () => {
   const [search , setSearch]=useState('')
-  const [tags , setTags] = useState(['No Tags' , 'Important' , 'General'])
+  const tags = ['No Tags' , 'Important' , 'General']
   const [todo, setTodo] = useState([
     {
       id: 1,
@@ -171,7 +171,7 @@ const App = () => {
 
         
       </div>
-      {/* new inputs */}
+      {/* new inputsssss */}
       <button onClick={(e) => submitTodo(e)}>Submit Todo</button>
 
 {editTodo.title !== "" && 
